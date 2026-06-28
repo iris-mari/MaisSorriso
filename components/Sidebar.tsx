@@ -11,7 +11,8 @@ import {
   Stethoscope, 
   Settings,
   X,
-  FileText
+  FileText,
+  FileImage
 } from "lucide-react";
 import { useSidebar } from "./SidebarContext";
 
@@ -21,6 +22,7 @@ const adminLinks = [
   { name: "Agenda", href: "/agenda", icon: Calendar },
   { name: "Prontuário", href: "/prontuario", icon: Stethoscope },
   { name: "Orçamentos", href: "/budgets", icon: FileText },
+  { name: "Raio-x", href: "/xrays", icon: FileImage },
   { name: "Acessos", href: "/users", icon: Users },
 ];
 
@@ -29,6 +31,7 @@ const clientLinks = [
   { name: "Meus Documentos", href: "/client/documents", icon: FileText },
   { name: "Meus Orçamentos", href: "/client/budgets", icon: FileText },
   { name: "Meu Prontuário", href: "/client/records", icon: Stethoscope },
+  { name: "Meu Raio-x", href: "/client/xrays", icon: FileImage },
 ];
 
 

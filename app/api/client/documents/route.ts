@@ -19,7 +19,12 @@ export async function GET() {
     }
 
     const documents = await prisma.patientDocument.findMany({
-      where: { patientId: patient.id },
+      where: { 
+        patientId: patient.id,
+        NOT: {
+          type: "RAIO_X"
+        }
+      },
       orderBy: { createdAt: "desc" },
     });
 
