@@ -1,9 +1,30 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { getSession } from "@/lib/auth";
 
-export async function GET() {
+export async function GET(request: Request) {
+  const session = await getSession();
+  if (!session || (session.role !== "ADMIN" && session.role !== "DENTISTA")) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const { searchParams } = new URL(request.url);
+  const myOnly = searchParams.get("myOnly") === "true";
+
   try {
+    let where = {};
+    if (session.role === "DENTISTA" && myOnly) {
+      where = {
+        appointments: {
+          some: {
+            dentistId: session.id,
+          },
+        },
+      };
+    }
+
     const patients = await prisma.patient.findMany({
+      where,
       include: {
         user: {
           select: {
@@ -22,6 +43,11 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  const session = await getSession();
+  if (!session || (session.role !== "ADMIN" && session.role !== "DENTISTA")) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     const body = await request.json();
     const { name, cpf, dateOfBirth, phone, email } = body;

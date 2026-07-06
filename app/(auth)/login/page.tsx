@@ -31,7 +31,7 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (res.ok) {
-        window.location.href = data.role === "ADMIN" ? "/" : "/client/appointments";
+        window.location.href = (data.role === "ADMIN" || data.role === "DENTISTA") ? "/" : "/client/appointments";
       } else {
         setError(data.error || "Erro ao fazer login");
       }

@@ -1,9 +1,21 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { getSession } from "@/lib/auth";
 
 export async function GET() {
+  const session = await getSession();
+  if (!session || (session.role !== "ADMIN" && session.role !== "DENTISTA")) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
+    let where = {};
+    if (session.role === "DENTISTA") {
+      where = { dentistId: session.id };
+    }
+
     const appointments = await prisma.appointment.findMany({
+      where,
       include: {
         patient: true,
         dentist: {
@@ -26,6 +38,11 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  const session = await getSession();
+  if (!session || (session.role !== "ADMIN" && session.role !== "DENTISTA")) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     const body = await request.json();
     const { patientId, date, dentistId } = body;
@@ -34,11 +51,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
 
+    // Force dentistId if user is DENTISTA
+    const targetDentistId = session.role === "DENTISTA" ? session.id : (dentistId || null);
+
     const appointment = await prisma.appointment.create({
       data: {
         patientId,
         date: new Date(date),
-        dentistId: dentistId || null,
+        dentistId: targetDentistId,
       },
       include: {
         patient: true,

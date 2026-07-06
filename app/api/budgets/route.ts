@@ -16,15 +16,29 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "ID do paciente é obrigatório" }, { status: 400 });
   }
 
-  // Admin can view any patient's budget, patient can only view their own
+  // Admin can view any patient's budget.
+  // Dentist can view budgets of their assigned patients.
+  // Patient can only view their own budgets.
   if (session.role !== "ADMIN") {
-    const patient = await prisma.patient.findUnique({
-      where: { id: patientId },
-      select: { userId: true },
-    });
+    if (session.role === "DENTISTA") {
+      const patientHasAppt = await prisma.appointment.findFirst({
+        where: {
+          patientId,
+          dentistId: session.id,
+        },
+      });
+      if (!patientHasAppt) {
+        return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
+      }
+    } else {
+      const patient = await prisma.patient.findUnique({
+        where: { id: patientId },
+        select: { userId: true },
+      });
 
-    if (!patient || patient.userId !== session.id) {
-      return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
+      if (!patient || patient.userId !== session.id) {
+        return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
+      }
     }
   }
 
@@ -43,7 +57,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   const session = await getSession();
 
-  if (!session || session.role !== "ADMIN") {
+  if (!session || (session.role !== "ADMIN" && session.role !== "DENTISTA")) {
     return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
   }
 
@@ -53,6 +67,18 @@ export async function POST(request: Request) {
 
     if (!patientId || !description || value === undefined) {
       return NextResponse.json({ error: "Campos obrigatórios faltando" }, { status: 400 });
+    }
+
+    if (session.role === "DENTISTA") {
+      const patientHasAppt = await prisma.appointment.findFirst({
+        where: {
+          patientId,
+          dentistId: session.id,
+        },
+      });
+      if (!patientHasAppt) {
+        return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
+      }
     }
 
     const parsedValue = parseFloat(value.toString());

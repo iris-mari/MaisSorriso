@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { UserPlus, Mail, User, Shield, Loader2, CheckCircle2, CreditCard, Calendar, Phone, Trash2 } from "lucide-react";
+import { UserPlus, Mail, User, Shield, Loader2, CheckCircle2, CreditCard, Calendar, Phone, Trash2, Stethoscope } from "lucide-react";
 import { cpf as cpfValidator } from "cpf-cnpj-validator";
 
 export default function UsersPage() {
@@ -216,13 +216,21 @@ export default function UsersPage() {
 
             <div className="space-y-2">
               <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Cargo do Usuário</label>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-3 gap-4">
                 <button 
                   type="button"
                   onClick={() => setRole("ADMIN")}
                   className={`flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-xs uppercase tracking-widest border transition-all ${role === "ADMIN" ? "bg-blue-600 text-white border-blue-600 shadow-xl shadow-blue-100" : "bg-white text-slate-400 border-slate-100 hover:bg-slate-50"}`}
                 >
                   <Shield className="w-4 h-4" />
+                  Admin
+                </button>
+                <button 
+                  type="button"
+                  onClick={() => setRole("DENTISTA")}
+                  className={`flex items-center justify-center gap-2 py-4 rounded-2xl font-bold text-xs uppercase tracking-widest border transition-all ${role === "DENTISTA" ? "bg-blue-600 text-white border-blue-600 shadow-xl shadow-blue-100" : "bg-white text-slate-400 border-slate-100 hover:bg-slate-50"}`}
+                >
+                  <Stethoscope className="w-4 h-4" />
                   Dentista
                 </button>
                 <button 
@@ -264,10 +272,39 @@ export default function UsersPage() {
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 text-slate-500">
                     <Shield className="w-4 h-4" />
-                    <span className="text-sm font-black uppercase tracking-widest">Dentistas ({users.filter(u => u.role === "ADMIN").length})</span>
+                    <span className="text-sm font-black uppercase tracking-widest">Administradores ({users.filter(u => u.role === "ADMIN").length})</span>
                   </div>
                   <div className="space-y-3">
                     {users.filter(u => u.role === "ADMIN").map(user => (
+                      <div key={user.id} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100 group transition-all hover:bg-white hover:border-slate-200 shadow-sm">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-black">
+                            {user.name.charAt(0)}
+                          </div>
+                          <div>
+                            <p className="font-bold text-slate-900 text-sm">{user.name}</p>
+                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Admin</p>
+                          </div>
+                        </div>
+                        <button 
+                          onClick={() => handleDeleteUser(user.id)}
+                          className="w-8 h-8 rounded-full bg-red-50 text-red-500 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-red-500 hover:text-white"
+                          title="Remover acesso"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 text-slate-500">
+                    <Stethoscope className="w-4 h-4" />
+                    <span className="text-sm font-black uppercase tracking-widest">Dentistas ({users.filter(u => u.role === "DENTISTA").length})</span>
+                  </div>
+                  <div className="space-y-3">
+                    {users.filter(u => u.role === "DENTISTA").map(user => (
                       <div key={user.id} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100 group transition-all hover:bg-white hover:border-slate-200 shadow-sm">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-black">

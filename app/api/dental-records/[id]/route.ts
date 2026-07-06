@@ -1,12 +1,38 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { getSession } from "@/lib/auth";
 
 export async function PUT(
   request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
+  const session = await getSession();
+  if (!session || (session.role !== "ADMIN" && session.role !== "DENTISTA")) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
+    const existingRecord = await prisma.dentalRecord.findUnique({
+      where: { id },
+    });
+
+    if (!existingRecord) {
+      return NextResponse.json({ error: "Dental record not found" }, { status: 404 });
+    }
+
+    if (session.role === "DENTISTA") {
+      const patientHasAppt = await prisma.appointment.findFirst({
+        where: {
+          patientId: existingRecord.patientId,
+          dentistId: session.id,
+        },
+      });
+      if (!patientHasAppt) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+      }
+    }
+
     const body = await request.json();
     const { description } = body;
 
@@ -32,7 +58,32 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
+  const session = await getSession();
+  if (!session || (session.role !== "ADMIN" && session.role !== "DENTISTA")) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
+    const existingRecord = await prisma.dentalRecord.findUnique({
+      where: { id },
+    });
+
+    if (!existingRecord) {
+      return NextResponse.json({ error: "Dental record not found" }, { status: 404 });
+    }
+
+    if (session.role === "DENTISTA") {
+      const patientHasAppt = await prisma.appointment.findFirst({
+        where: {
+          patientId: existingRecord.patientId,
+          dentistId: session.id,
+        },
+      });
+      if (!patientHasAppt) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+      }
+    }
+
     await prisma.dentalRecord.delete({
       where: { id },
     });

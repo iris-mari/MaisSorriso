@@ -49,7 +49,11 @@ export default function Sidebar() {
       .catch(() => {});
   }, []);
 
-  const linksToMap = role === "CLIENTE" ? clientLinks : adminLinks;
+  const linksToMap = role === "CLIENTE" 
+    ? clientLinks 
+    : (role === "DENTISTA" 
+        ? adminLinks.filter(link => link.href !== "/users") 
+        : adminLinks);
 
   return (
     <>

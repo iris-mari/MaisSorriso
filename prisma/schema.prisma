@@ -14,7 +14,7 @@ model User {
   name        String
   phone       String?
   dateOfBirth DateTime?
-  role        String   @default("CLIENTE") // "ADMIN" or "CLIENTE"
+  role        String   @default("CLIENTE") // "ADMIN", "DENTISTA" or "CLIENTE"
   status      String   @default("APPROVED") // "APPROVED", "PENDING"
   createdAt   DateTime @default(now())
 

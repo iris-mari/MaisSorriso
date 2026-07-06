@@ -30,13 +30,17 @@ export default function Header() {
       .then((data) => {
         if (data.name) {
           setUserName(data.name);
-          setUserRole(data.role === "ADMIN" ? "Administrador" : "Paciente");
           if (data.role === "ADMIN") {
+            setUserRole("Administrador");
             setIsAdmin(true);
             void fetch("/api/admin/requests")
               .then(res => res.json())
               .then(reqs => setPendingCount(Array.isArray(reqs) ? reqs.length : 0));
+          } else if (data.role === "DENTISTA") {
+            setUserRole("Dentista");
+            setIsAdmin(false);
           } else if (data.role === "CLIENTE") {
+            setUserRole("Paciente");
             setIsAdmin(false);
             fetchNotifications();
           }

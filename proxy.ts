@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { decrypt } from "@/lib/auth";
 
-const adminRoutes = ["/", "/patients", "/agenda", "/prontuario"];
+const adminRoutes = ["/", "/patients", "/agenda", "/prontuario", "/budgets", "/xrays"];
 const publicRoutes = ["/login", "/signup"];
 
 export async function proxy(request: NextRequest) {
@@ -19,7 +19,14 @@ export async function proxy(request: NextRequest) {
                        path.startsWith("/api/patients") || 
                        path.startsWith("/api/appointments") || 
                        path.startsWith("/api/dashboard") ||
-                       path.startsWith("/api/dental-records");
+                       path.startsWith("/api/dental-records") ||
+                       path.startsWith("/api/budgets") ||
+                       path.startsWith("/api/xrays");
+
+  const isSuperAdminRoute = path === "/users" || 
+                            path === "/requests" ||
+                            path.startsWith("/api/admin") ||
+                            (path.startsWith("/api/users") && request.method !== "GET");
 
   const cookie = request.cookies.get("session")?.value;
   let session = null;
@@ -37,14 +44,22 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  // Role based access
-  if (session && isAdminRoute && session.role !== "ADMIN") {
+  // Super Admin restrictions (only ADMIN role allowed)
+  if (session && isSuperAdminRoute && session.role !== "ADMIN") {
+    if (path.startsWith("/api/")) {
+       return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+    }
+    return NextResponse.redirect(new URL("/welcome", request.url));
+  }
+
+  // General Admin / Dentist routes (both ADMIN and DENTISTA allowed)
+  if (session && isAdminRoute && session.role !== "ADMIN" && session.role !== "DENTISTA") {
     return NextResponse.redirect(new URL("/welcome", request.url));
   }
 
   // Redirect to dashboard if logged in and trying to access login/signup
   if (session && isPublicRoute) {
-    if (session.role === "ADMIN") {
+    if (session.role === "ADMIN" || session.role === "DENTISTA") {
       return NextResponse.redirect(new URL("/", request.url));
     } else {
       return NextResponse.redirect(new URL("/welcome", request.url));

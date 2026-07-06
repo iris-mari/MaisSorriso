@@ -34,6 +34,7 @@ export default function AgendaPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [editingAppointmentId, setEditingAppointmentId] = useState<string | null>(null);
+  const [currentUser, setCurrentUser] = useState<{ id: string; name: string; role: string } | null>(null);
 
   const [formData, setFormData] = useState({
     patientId: "",
@@ -45,18 +46,23 @@ export default function AgendaPage() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [appRes, patRes, denRes] = await Promise.all([
+      const [appRes, patRes, denRes, meRes] = await Promise.all([
         fetch("/api/appointments"),
         fetch("/api/patients"),
-        fetch("/api/users")
+        fetch("/api/users"),
+        fetch("/api/auth/me")
       ]);
       const appData = await appRes.json();
       const patData = await patRes.json();
       const denData = await denRes.json();
+      const meData = await meRes.json();
       
       setAppointments(Array.isArray(appData) ? appData : []);
       setPatients(Array.isArray(patData) ? patData : []);
-      setDentists(Array.isArray(denData) ? denData.filter((u: Dentist) => u.role === "ADMIN") : []);
+      setDentists(Array.isArray(denData) ? denData.filter((u: Dentist) => u.role === "DENTISTA") : []);
+      if (meData && meData.id) {
+        setCurrentUser(meData);
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -131,7 +137,12 @@ export default function AgendaPage() {
         <button 
           onClick={() => {
             setEditingAppointmentId(null);
-            setFormData({ patientId: "", dentistId: "", date: "", time: "" });
+            setFormData({ 
+              patientId: "", 
+              dentistId: currentUser?.role === "DENTISTA" ? currentUser.id : "", 
+              date: "", 
+              time: "" 
+            });
             setIsModalOpen(true);
           }}
           className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-[1.5rem] font-black flex items-center gap-3 transition-all shadow-xl shadow-blue-100 hover:scale-105 active:scale-95"
@@ -269,19 +280,28 @@ export default function AgendaPage() {
             </select>
           </div>
 
-          <div className="space-y-2">
-            <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Dentista (Opcional)</label>
-            <select 
-              className="w-full px-5 py-4 rounded-2xl border border-slate-100 bg-slate-50 focus:bg-white focus:border-blue-500 focus:ring-8 focus:ring-blue-50 transition-all outline-none font-bold text-slate-600"
-              value={formData.dentistId}
-              onChange={(e) => setFormData({ ...formData, dentistId: e.target.value })}
-            >
-              <option value="">Qualquer dentista disponível</option>
-              {dentists.map(d => (
-                <option key={d.id} value={d.id}>{d.name}</option>
-              ))}
-            </select>
-          </div>
+          {currentUser?.role === "DENTISTA" ? (
+            <div className="space-y-2">
+              <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Dentista</label>
+              <div className="w-full px-5 py-4 rounded-2xl border border-slate-100 bg-slate-50 font-bold text-slate-500">
+                {currentUser.name} (Você)
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Dentista (Opcional)</label>
+              <select 
+                className="w-full px-5 py-4 rounded-2xl border border-slate-100 bg-slate-50 focus:bg-white focus:border-blue-500 focus:ring-8 focus:ring-blue-50 transition-all outline-none font-bold text-slate-600"
+                value={formData.dentistId}
+                onChange={(e) => setFormData({ ...formData, dentistId: e.target.value })}
+              >
+                <option value="">Qualquer dentista disponível</option>
+                {dentists.map(d => (
+                  <option key={d.id} value={d.id}>{d.name}</option>
+                ))}
+              </select>
+            </div>
+          )}
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">

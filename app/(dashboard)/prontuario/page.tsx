@@ -44,7 +44,7 @@ export default function ProntuarioPage() {
   }, [selectedPatientId]);
 
   useEffect(() => {
-    fetch("/api/patients")
+    fetch("/api/patients?myOnly=true")
       .then(res => res.json())
       .then(data => setPatients(Array.isArray(data) ? data : []));
   }, []);

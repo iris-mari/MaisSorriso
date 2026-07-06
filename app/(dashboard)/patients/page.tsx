@@ -35,7 +35,7 @@ export default function PatientsPage() {
   const fetchPatients = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/patients");
+      const res = await fetch("/api/patients?myOnly=true");
       const data = await res.json();
       setPatients(Array.isArray(data) ? data : []);
     } catch (error) {

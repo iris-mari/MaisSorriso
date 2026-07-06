@@ -48,7 +48,7 @@ export default function AdminXraysPage() {
   const fetchPatients = async () => {
     setLoadingPatients(true);
     try {
-      const res = await fetch("/api/patients");
+      const res = await fetch("/api/patients?myOnly=true");
       const data = await res.json();
       const patientList = Array.isArray(data) ? data : [];
       setPatients(patientList);

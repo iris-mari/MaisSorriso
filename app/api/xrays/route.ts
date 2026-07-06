@@ -5,7 +5,7 @@ import { getSession } from "@/lib/auth";
 export async function GET(request: Request) {
   const session = await getSession();
 
-  if (!session || session.role !== "ADMIN") {
+  if (!session || (session.role !== "ADMIN" && session.role !== "DENTISTA")) {
     return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
   }
 
@@ -14,6 +14,18 @@ export async function GET(request: Request) {
 
   if (!patientId) {
     return NextResponse.json({ error: "ID do paciente é obrigatório" }, { status: 400 });
+  }
+
+  if (session.role === "DENTISTA") {
+    const patientHasAppt = await prisma.appointment.findFirst({
+      where: {
+        patientId,
+        dentistId: session.id,
+      },
+    });
+    if (!patientHasAppt) {
+      return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
+    }
   }
 
   try {
@@ -35,7 +47,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   const session = await getSession();
 
-  if (!session || session.role !== "ADMIN") {
+  if (!session || (session.role !== "ADMIN" && session.role !== "DENTISTA")) {
     return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
   }
 
@@ -45,6 +57,18 @@ export async function POST(request: Request) {
 
     if (!patientId || !name || !data) {
       return NextResponse.json({ error: "Campos obrigatórios faltando" }, { status: 400 });
+    }
+
+    if (session.role === "DENTISTA") {
+      const patientHasAppt = await prisma.appointment.findFirst({
+        where: {
+          patientId,
+          dentistId: session.id,
+        },
+      });
+      if (!patientHasAppt) {
+        return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
+      }
     }
 
     // Create the X-ray document
@@ -88,7 +112,7 @@ export async function POST(request: Request) {
 export async function DELETE(request: Request) {
   const session = await getSession();
 
-  if (!session || session.role !== "ADMIN") {
+  if (!session || (session.role !== "ADMIN" && session.role !== "DENTISTA")) {
     return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
   }
 
@@ -103,11 +127,23 @@ export async function DELETE(request: Request) {
     // Make sure it is indeed a RAIO_X type document to prevent deleting general documents via this endpoint
     const existingDoc = await prisma.patientDocument.findUnique({
       where: { id },
-      select: { type: true }
+      select: { type: true, patientId: true }
     });
 
     if (!existingDoc || existingDoc.type !== "RAIO_X") {
       return NextResponse.json({ error: "Exame não encontrado" }, { status: 404 });
+    }
+
+    if (session.role === "DENTISTA") {
+      const patientHasAppt = await prisma.appointment.findFirst({
+        where: {
+          patientId: existingDoc.patientId,
+          dentistId: session.id,
+        },
+      });
+      if (!patientHasAppt) {
+        return NextResponse.json({ error: "Não autorizado" }, { status: 403 });
+      }
     }
 
     await prisma.patientDocument.delete({
