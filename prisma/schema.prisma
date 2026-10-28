@@ -55,6 +55,8 @@ model Appointment {
   patient   Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
   patientId String
   date      DateTime
+  procedure String?
+  status    String?  @default("CONFIRMADO")
   createdAt DateTime @default(now())
 
   dentist   User?    @relation("DentistAppointments", fields: [dentistId], references: [id])

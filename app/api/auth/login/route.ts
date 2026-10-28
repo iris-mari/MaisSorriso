@@ -3,6 +3,7 @@ import prisma from "@/lib/prisma";
 import { login } from "@/lib/auth";
 
 export async function POST(request: Request) {
+  console.log("--> ENTERED LOGIN ROUTE");
   try {
     const { cpf } = await request.json();
 

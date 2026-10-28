@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { User, Stethoscope, Save, Loader2, Info, Edit, Trash2, Plus } from "lucide-react";
 import DentalChart from "@/components/DentalChart";
 import Modal from "@/components/Modal";
+import { getToothInfo } from "@/lib/teeth";
 
 interface Patient {
   id: string;
@@ -57,7 +58,7 @@ export default function ProntuarioPage() {
     }
   }, [selectedPatientId, fetchRecords]);
 
-  const handleToothSelect = (number: number) => {
+  const handleToothSelect = (number: number, name: string) => {
     setSelectedTooth(number);
     setToothDescription("");
     setEditingRecordId(null);
@@ -213,37 +214,43 @@ export default function ProntuarioPage() {
                   </div>
                 ) : (
                   <div className="space-y-6">
-                    {records.map(record => (
-                      <div key={record.id} className="p-8 rounded-[2.5rem] border border-slate-100 bg-white hover:bg-slate-50/50 transition-all flex gap-8 group shadow-sm hover:shadow-md">
-                        <div className="w-16 h-16 bg-blue-600 rounded-[1.5rem] flex flex-col items-center justify-center shadow-lg shadow-blue-100 group-hover:scale-105 transition-transform">
-                          <span className="text-xl font-black text-white leading-none">{record.toothNumber}</span>
-                          <span className="text-[8px] font-black text-blue-200 uppercase tracking-widest mt-1">DENTE</span>
-                        </div>
-                        <div className="flex-1 flex flex-col justify-center">
-                          <p className="text-slate-900 font-black text-lg tracking-tight mb-2 group-hover:text-blue-600 transition-colors">
-                            {record.description}
-                          </p>
-                          <div className="flex items-center gap-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                            <span className="bg-slate-100 px-3 py-1 rounded-full">{new Date(record.createdAt).toLocaleDateString("pt-BR")}</span>
-                            <span>{new Date(record.createdAt).toLocaleTimeString("pt-BR", {hour: '2-digit', minute:'2-digit'})}</span>
+                    {records.map(record => {
+                      const toothInfo = getToothInfo(record.toothNumber);
+                      return (
+                        <div key={record.id} className="p-8 rounded-[2.5rem] border border-slate-100 bg-white hover:bg-slate-50/50 transition-all flex gap-8 group shadow-sm hover:shadow-md">
+                          <div className="w-16 h-16 bg-blue-600 rounded-[1.5rem] flex flex-col items-center justify-center shadow-lg shadow-blue-100 group-hover:scale-105 transition-transform">
+                            <span className="text-xl font-black text-white leading-none">{record.toothNumber}</span>
+                            <span className="text-[8px] font-black text-blue-200 uppercase tracking-widest mt-1">DENTE</span>
+                          </div>
+                          <div className="flex-1 flex flex-col justify-center">
+                            <h4 className="text-xs font-black text-blue-500 uppercase tracking-wider mb-1">
+                              {toothInfo.name} ({toothInfo.category === "adulto" ? "Permanente" : "Decíduo"})
+                            </h4>
+                            <p className="text-slate-900 font-black text-lg tracking-tight mb-2 group-hover:text-blue-600 transition-colors">
+                              {record.description}
+                            </p>
+                            <div className="flex items-center gap-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                              <span className="bg-slate-100 px-3 py-1 rounded-full">{new Date(record.createdAt).toLocaleDateString("pt-BR")}</span>
+                              <span>{new Date(record.createdAt).toLocaleTimeString("pt-BR", {hour: '2-digit', minute:'2-digit'})}</span>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2 self-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button 
+                              onClick={() => handleEdit(record)}
+                              className="p-3 rounded-xl hover:bg-blue-600 hover:text-white text-slate-400 transition-all border border-slate-100 shadow-sm"
+                            >
+                              <Edit className="w-5 h-5" />
+                            </button>
+                            <button 
+                              onClick={() => handleDelete(record.id)}
+                              className="p-3 rounded-xl hover:bg-red-600 hover:text-white text-slate-400 transition-all border border-slate-100 shadow-sm"
+                            >
+                              <Trash2 className="w-5 h-5" />
+                            </button>
                           </div>
                         </div>
-                        <div className="flex items-center gap-2 self-center opacity-0 group-hover:opacity-100 transition-opacity">
-                          <button 
-                            onClick={() => handleEdit(record)}
-                            className="p-3 rounded-xl hover:bg-blue-600 hover:text-white text-slate-400 transition-all border border-slate-100 shadow-sm"
-                          >
-                            <Edit className="w-5 h-5" />
-                          </button>
-                          <button 
-                            onClick={() => handleDelete(record.id)}
-                            className="p-3 rounded-xl hover:bg-red-600 hover:text-white text-slate-400 transition-all border border-slate-100 shadow-sm"
-                          >
-                            <Trash2 className="w-5 h-5" />
-                          </button>
-                        </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 )}
               </div>
@@ -260,9 +267,26 @@ export default function ProntuarioPage() {
           setEditingRecordId(null);
           setToothDescription("");
         }} 
-        title={editingRecordId ? `Editar Relato - Dente ${selectedTooth}` : `Novo Relato - Dente ${selectedTooth}`}
+        title={editingRecordId ? "Editar Relato de Diagnóstico" : "Novo Relato de Diagnóstico"}
       >
         <div className="space-y-8 p-4">
+          {selectedTooth !== null && (
+            <div className="p-5 bg-blue-50/50 border border-blue-100 rounded-[2rem] flex items-center gap-4">
+              <div className="w-12 h-12 bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-700 shadow-lg shadow-blue-100 rounded-2xl flex flex-col items-center justify-center text-white">
+                <span className="text-lg font-black leading-none">{selectedTooth}</span>
+                <span className="text-[6px] font-black uppercase tracking-widest mt-0.5">FDI</span>
+              </div>
+              <div className="flex-1">
+                <h4 className="text-[10px] font-black text-blue-700 uppercase tracking-widest">
+                  {getToothInfo(selectedTooth).category === "adulto" ? "Dente Permanente" : "Dente Decíduo (Infantil)"}
+                </h4>
+                <p className="text-sm font-black text-slate-800 tracking-tight leading-tight">
+                  {getToothInfo(selectedTooth).name}
+                </p>
+              </div>
+            </div>
+          )}
+
           <div className="space-y-4">
             <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Descrição do Diagnóstico / Procedimento</label>
             <textarea 

@@ -26,7 +26,7 @@ export async function PUT(
     }
 
     const body = await request.json();
-    const { patientId, date, dentistId } = body;
+    const { patientId, date, dentistId, procedure, status } = body;
 
     // Dentists cannot change the dentist of their appointment to someone else.
     // If dentist, keep dentistId as session.id.
@@ -38,6 +38,8 @@ export async function PUT(
         patientId,
         date: date ? new Date(date) : undefined,
         dentistId: targetDentistId,
+        procedure: procedure !== undefined ? procedure : undefined,
+        status: status !== undefined ? status : undefined,
       },
     });
 
