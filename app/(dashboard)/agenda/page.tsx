@@ -386,23 +386,23 @@ export default function AgendaPage() {
   };
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-6 sm:space-y-10">
       {/* CABEÇALHO */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div className="space-y-2">
-          <div className="flex items-center gap-3">
-            <h2 className="text-4xl font-black text-slate-900 tracking-tight">Agenda</h2>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6">
+        <div className="space-y-1 sm:space-y-2">
+          <div className="flex items-center gap-3 flex-wrap">
+            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">Agenda</h2>
             {currentUser?.role === "ADMIN" ? (
-              <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-black rounded-full uppercase tracking-wider border border-purple-100">
+              <span className="px-3 py-1 bg-purple-50 text-purple-700 text-[10px] sm:text-xs font-black rounded-full uppercase tracking-wider border border-purple-100">
                 Visão Macro Geral
               </span>
             ) : (
-              <span className="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-black rounded-full uppercase tracking-wider border border-blue-100">
+              <span className="px-3 py-1 bg-blue-50 text-blue-700 text-[10px] sm:text-xs font-black rounded-full uppercase tracking-wider border border-blue-100">
                 Agenda Individual
               </span>
             )}
           </div>
-          <p className="text-slate-500 font-medium">
+          <p className="text-slate-500 text-xs sm:text-sm font-medium">
             {currentUser?.role === "ADMIN"
               ? "Gerencie as consultas e visualize o fluxo clínico de todos os dentistas."
               : `Bem-vindo(a), ${currentUser?.name || "Dr(a)"}. Exibindo apenas suas consultas e procedimentos.`}
@@ -411,7 +411,7 @@ export default function AgendaPage() {
 
         <button
           onClick={handleOpenCreateModal}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-[1.5rem] font-black flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-100 hover:scale-105 active:scale-95 cursor-pointer self-start md:self-auto"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-[1.5rem] font-black flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-100 hover:scale-105 active:scale-95 cursor-pointer self-start sm:self-auto text-xs sm:text-sm w-full sm:w-auto"
         >
           <Plus className="w-5 h-5 stroke-[3]" />
           Agendar Consulta
@@ -420,16 +420,16 @@ export default function AgendaPage() {
 
       {/* BARRA DE FILTROS EXCLUSIVA DO ADMINISTRADOR */}
       {currentUser?.role === "ADMIN" && (
-        <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-premium flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="flex items-center gap-3 flex-wrap">
-            <div className="flex items-center gap-2 text-slate-400 font-black text-xs uppercase tracking-wider mr-2">
-              <Filter className="w-4 h-4 text-blue-600" />
+        <div className="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] border border-slate-100 shadow-premium flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+            <div className="flex items-center gap-2 text-slate-400 font-black text-[10px] sm:text-xs uppercase tracking-wider mr-1 sm:mr-2">
+              <Filter className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-600" />
               Filtrar por Dentista:
             </div>
 
             <button
               onClick={() => setSelectedDentistIds([])}
-              className={`px-4 py-2.5 rounded-2xl text-xs font-black transition-all flex items-center gap-2 ${
+              className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl text-[11px] sm:text-xs font-black transition-all flex items-center gap-2 ${
                 selectedDentistIds.length === 0
                   ? "bg-blue-600 text-white shadow-lg shadow-blue-100 scale-105"
                   : "bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-100"
@@ -445,7 +445,7 @@ export default function AgendaPage() {
                 <button
                   key={d.id}
                   onClick={() => toggleDentistFilter(d.id)}
-                  className={`px-4 py-2.5 rounded-2xl text-xs font-black transition-all flex items-center gap-2 ${
+                  className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl text-[11px] sm:text-xs font-black transition-all flex items-center gap-2 ${
                     active
                       ? "bg-blue-600 text-white shadow-lg shadow-blue-100 scale-105"
                       : "bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-100"
@@ -471,19 +471,19 @@ export default function AgendaPage() {
       )}
 
       {/* GRADE PRINCIPAL: LISTA DE CONSULTAS DO DIA + CALENDÁRIO */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 items-start">
         {/* LISTAGEM DO DIA SELECIONADO */}
-        <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-premium flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-black">
-                <Clock3 className="w-6 h-6" />
+        <div className="lg:col-span-2 space-y-4 sm:space-y-6">
+          <div className="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-[2.5rem] border border-slate-100 shadow-premium flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-black shrink-0">
+                <Clock3 className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
               <div>
-                <span className="text-xs font-black uppercase tracking-wider text-slate-400">
+                <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-slate-400">
                   Consultas do Dia
                 </span>
-                <h3 className="text-xl font-black text-slate-900 tracking-tight capitalize">
+                <h3 className="text-base sm:text-xl font-black text-slate-900 tracking-tight capitalize">
                   {selectedDate.toLocaleDateString("pt-BR", {
                     weekday: "long",
                     day: "2-digit",
@@ -494,26 +494,26 @@ export default function AgendaPage() {
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
-              <span className="px-4 py-2 bg-slate-50 text-slate-600 text-xs font-black rounded-xl border border-slate-100">
+            <div className="flex items-center gap-3 self-end sm:self-auto">
+              <span className="px-3 sm:px-4 py-1.5 sm:py-2 bg-slate-50 text-slate-600 text-[10px] sm:text-xs font-black rounded-xl border border-slate-100">
                 {appointmentsForSelectedDate.length} agendamento(s)
               </span>
             </div>
           </div>
 
-          <div className="bg-white rounded-[3rem] border border-slate-100 shadow-premium overflow-hidden">
+          <div className="bg-white rounded-2xl sm:rounded-[3rem] border border-slate-100 shadow-premium overflow-hidden">
             {loading ? (
-              <div className="p-20 text-center text-slate-400">
-                <Loader2 className="w-10 h-10 animate-spin mx-auto mb-4 text-blue-500" />
-                <p className="font-bold text-sm tracking-tight text-slate-500">Sincronizando agenda...</p>
+              <div className="p-12 sm:p-20 text-center text-slate-400">
+                <Loader2 className="w-8 h-8 sm:w-10 sm:h-10 animate-spin mx-auto mb-3 sm:mb-4 text-blue-500" />
+                <p className="font-bold text-xs sm:text-sm tracking-tight text-slate-500">Sincronizando agenda...</p>
               </div>
             ) : appointmentsForSelectedDate.length === 0 ? (
-              <div className="p-20 text-center space-y-4">
-                <div className="bg-slate-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto text-slate-300">
-                  <CalendarIcon className="w-10 h-10" />
+              <div className="p-8 sm:p-20 text-center space-y-4">
+                <div className="bg-slate-50 w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto text-slate-300">
+                  <CalendarIcon className="w-8 h-8 sm:w-10 sm:h-10" />
                 </div>
                 <div>
-                  <p className="text-slate-600 font-black text-lg tracking-tight">
+                  <p className="text-slate-600 font-black text-base sm:text-lg tracking-tight">
                     Nenhuma consulta para este dia.
                   </p>
                   <p className="text-slate-400 text-xs font-medium mt-1">
@@ -524,7 +524,7 @@ export default function AgendaPage() {
                 </div>
                 <button
                   onClick={handleOpenCreateModal}
-                  className="inline-flex items-center gap-2 bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white px-6 py-3 rounded-2xl text-xs font-black transition-all cursor-pointer"
+                  className="inline-flex items-center gap-2 bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl text-xs font-black transition-all cursor-pointer"
                 >
                   <Plus className="w-4 h-4" />
                   Agendar para este dia
@@ -539,14 +539,14 @@ export default function AgendaPage() {
                   return (
                     <div
                       key={appointment.id}
-                      className="p-8 flex flex-col sm:flex-row sm:items-center gap-6 hover:bg-slate-50/60 transition-all group"
+                      className="p-4 sm:p-6 md:p-8 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 hover:bg-slate-50/60 transition-all group"
                     >
                       {/* Horário */}
-                      <div className="flex flex-col items-center justify-center bg-slate-50 group-hover:bg-blue-600 group-hover:text-white w-20 h-20 rounded-[1.75rem] border border-slate-100 group-hover:border-blue-600 shadow-sm transition-all duration-300 shrink-0">
-                        <span className="text-xl font-black text-slate-900 group-hover:text-white transition-colors tracking-tighter">
+                      <div className="flex sm:flex-col items-center justify-between sm:justify-center bg-slate-50 group-hover:bg-blue-600 group-hover:text-white px-4 py-2 sm:px-0 sm:py-0 w-full sm:w-20 sm:h-20 rounded-xl sm:rounded-[1.75rem] border border-slate-100 group-hover:border-blue-600 shadow-sm transition-all duration-300 shrink-0">
+                        <span className="text-base sm:text-xl font-black text-slate-900 group-hover:text-white transition-colors tracking-tighter">
                           {date.getHours().toString().padStart(2, "0")}:{date.getMinutes().toString().padStart(2, "0")}
                         </span>
-                        <span className="text-[8px] font-black text-blue-600 group-hover:text-blue-100 uppercase tracking-widest mt-0.5">
+                        <span className="text-[8px] font-black text-blue-600 group-hover:text-blue-100 uppercase tracking-widest sm:mt-0.5">
                           HORÁRIO
                         </span>
                       </div>
@@ -555,7 +555,7 @@ export default function AgendaPage() {
                       <div className="flex-1 min-w-0 space-y-2">
                         <div className="flex items-center gap-2 flex-wrap">
                           <span
-                            className={`px-3 py-1 text-[10px] font-black rounded-full uppercase tracking-wider border shadow-sm ${statusInfo.bg} ${statusInfo.text} ${statusInfo.border}`}
+                            className={`px-2.5 sm:px-3 py-0.5 sm:py-1 text-[9px] sm:text-[10px] font-black rounded-full uppercase tracking-wider border shadow-sm ${statusInfo.bg} ${statusInfo.text} ${statusInfo.border}`}
                           >
                             {statusInfo.label}
                           </span>
@@ -623,12 +623,12 @@ export default function AgendaPage() {
 
         {/* CALENDÁRIO INTERATIVO */}
         <div className="space-y-6">
-          <div className="bg-white p-8 rounded-[3rem] border border-slate-100 shadow-premium space-y-6">
+          <div className="bg-white p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-[3rem] border border-slate-100 shadow-premium space-y-4 sm:space-y-6">
             {/* Controles do Mês */}
             <div className="flex items-center justify-between">
               <div>
                 <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">Navegação</span>
-                <h3 className="text-xl font-black text-slate-900 tracking-tight capitalize">
+                <h3 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight capitalize">
                   {currentMonth.toLocaleDateString("pt-BR", { month: "long", year: "numeric" })}
                 </h3>
               </div>
@@ -637,23 +637,23 @@ export default function AgendaPage() {
                 <button
                   onClick={handlePrevMonth}
                   title="Mês anterior"
-                  className="w-9 h-9 flex items-center justify-center hover:bg-slate-50 rounded-xl transition-all border border-transparent hover:border-slate-100 cursor-pointer"
+                  className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center hover:bg-slate-50 rounded-xl transition-all border border-transparent hover:border-slate-100 cursor-pointer"
                 >
-                  <ChevronLeft className="w-5 h-5 text-slate-400" />
+                  <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400" />
                 </button>
                 <button
                   onClick={handleGoToToday}
                   title="Ir para hoje"
-                  className="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-black rounded-xl transition-all cursor-pointer"
+                  className="px-2.5 sm:px-3 py-1 sm:py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-600 text-[10px] sm:text-xs font-black rounded-xl transition-all cursor-pointer"
                 >
                   Hoje
                 </button>
                 <button
                   onClick={handleNextMonth}
                   title="Próximo mês"
-                  className="w-9 h-9 flex items-center justify-center hover:bg-slate-50 rounded-xl transition-all border border-transparent hover:border-slate-100 cursor-pointer"
+                  className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center hover:bg-slate-50 rounded-xl transition-all border border-transparent hover:border-slate-100 cursor-pointer"
                 >
-                  <ChevronRight className="w-5 h-5 text-slate-400" />
+                  <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400" />
                 </button>
               </div>
             </div>
@@ -661,14 +661,14 @@ export default function AgendaPage() {
             {/* Cabeçalho dos Dias da Semana */}
             <div className="grid grid-cols-7 text-center">
               {["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SÁB"].map((d) => (
-                <span key={d} className="text-[10px] font-black text-slate-300 tracking-widest py-1">
+                <span key={d} className="text-[8px] sm:text-[10px] font-black text-slate-300 tracking-widest py-1">
                   {d}
                 </span>
               ))}
             </div>
 
             {/* Matriz dos Dias do Mês */}
-            <div className="grid grid-cols-7 gap-y-2 gap-x-1">
+            <div className="grid grid-cols-7 gap-y-1.5 sm:gap-y-2 gap-x-1">
               {calendarDays.map((cell, i) => {
                 const active = isSelected(cell.date);
                 const today = isToday(cell.date);
@@ -678,7 +678,7 @@ export default function AgendaPage() {
                   <div key={i} className="flex flex-col items-center">
                     <button
                       onClick={() => handleSelectDay(cell)}
-                      className={`w-10 h-10 text-sm font-black rounded-2xl transition-all relative flex flex-col items-center justify-center group cursor-pointer ${
+                      className={`w-8 h-8 sm:w-10 sm:h-10 text-xs sm:text-sm font-black rounded-xl sm:rounded-2xl transition-all relative flex flex-col items-center justify-center group cursor-pointer ${
                         active
                           ? "bg-blue-600 text-white shadow-xl shadow-blue-200 scale-105"
                           : today
@@ -820,7 +820,7 @@ export default function AgendaPage() {
           </div>
 
           {/* Data e Horário */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">
                 Data <span className="text-rose-500">*</span>

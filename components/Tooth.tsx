@@ -57,29 +57,32 @@ export default function Tooth({
       type="button"
       className={`
         absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center transition-all duration-300 group focus:outline-none z-10
-        ${isChild ? "w-8 h-12 sm:w-9 sm:h-13 md:w-10 md:h-15" : "w-10 h-14 sm:w-11 sm:h-15 md:w-12 md:h-18"}
+        ${isChild 
+          ? "w-4 h-6 min-[380px]:w-5 min-[380px]:h-7 min-[480px]:w-6 min-[480px]:h-9 sm:w-7 sm:h-11 md:w-8 md:h-13 lg:w-9 lg:h-15" 
+          : "w-5 h-7 min-[380px]:w-5.5 min-[380px]:h-8 min-[480px]:w-7 min-[480px]:h-10 sm:w-9 sm:h-13 md:w-11 md:h-16 lg:w-12 lg:h-18"
+        }
         ${isSelected ? "scale-110 z-30" : "hover:scale-105 hover:z-20"}
       `}
       style={{ left: `${x}%`, top: `${y}%` }}
     >
       {/* Tooltip */}
-      <div className="absolute bottom-full mb-2 hidden group-hover:flex flex-col items-center z-50 pointer-events-none shadow-lg">
-        <div className="bg-slate-900 text-white text-[9px] sm:text-[10px] font-black tracking-wider py-1.5 px-3 rounded-xl whitespace-nowrap uppercase border border-slate-800">
+      <div className="absolute bottom-full mb-1 sm:mb-2 hidden sm:group-hover:flex flex-col items-center z-50 pointer-events-none shadow-lg">
+        <div className="bg-slate-900 text-white text-[8px] sm:text-[10px] font-black tracking-wider py-1 sm:py-1.5 px-2 sm:px-3 rounded-lg sm:rounded-xl whitespace-nowrap uppercase border border-slate-800">
           Dente {number}: {name}
         </div>
-        <div className="w-2 h-2 bg-slate-900 rotate-45 -mt-1"></div>
+        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-slate-900 rotate-45 -mt-0.5 sm:-mt-1"></div>
       </div>
 
       {/* Record indicator badge (top-right of button) */}
       {hasRecord && (
-        <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full border border-white shadow-sm animate-pulse z-20" />
+        <span className="absolute top-0 right-0 w-1.5 h-1.5 min-[380px]:w-2 min-[380px]:h-2 sm:w-2.5 sm:h-2.5 bg-red-500 rounded-full border border-white shadow-sm animate-pulse z-20" />
       )}
 
       {/* Number at the top (for upper teeth) */}
       {isUpper && (
         <span
           className={`
-            text-[8px] sm:text-[9px] font-black tracking-tighter mb-0.5 transition-colors duration-300 select-none
+            text-[6px] min-[380px]:text-[7px] sm:text-[8px] md:text-[9px] font-black tracking-tighter mb-0.5 transition-colors duration-300 select-none leading-none
             ${isSelected ? "text-blue-600 font-extrabold" : hasRecord ? "text-red-500 font-extrabold" : "text-slate-400 group-hover:text-slate-600"}
           `}
         >
@@ -187,7 +190,7 @@ export default function Tooth({
       {!isUpper && (
         <span
           className={`
-            text-[8px] sm:text-[9px] font-black tracking-tighter mt-0.5 transition-colors duration-300 select-none
+            text-[6px] min-[380px]:text-[7px] sm:text-[8px] md:text-[9px] font-black tracking-tighter mt-0.5 transition-colors duration-300 select-none leading-none
             ${isSelected ? "text-blue-600 font-extrabold" : hasRecord ? "text-red-500 font-extrabold" : "text-slate-400 group-hover:text-slate-600"}
           `}
         >

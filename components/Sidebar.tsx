@@ -34,7 +34,6 @@ const clientLinks = [
   { name: "Meu Raio-x", href: "/client/xrays", icon: FileImage },
 ];
 
-
 export default function Sidebar() {
   const pathname = usePathname();
   const { isOpen, close } = useSidebar();
@@ -68,20 +67,21 @@ export default function Sidebar() {
       <aside className={`fixed left-0 top-0 h-full w-72 bg-white flex flex-col z-50 transition-transform duration-300 ease-in-out border-r border-slate-200/60 shadow-2xl md:shadow-none ${
         isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
       }`}>
-        <div className="p-8 pb-4">
+        <div className="p-6 sm:p-8 pb-4">
           <div className="flex flex-col items-center gap-2">
             <div className="w-full flex justify-between items-center md:justify-center">
               <Image 
                 src="/maisSorriso.png" 
                 alt="+Sorriso Logo" 
-                width={160}
-                height={160}
+                width={150}
+                height={150}
                 className="object-contain transform hover:scale-105 transition-transform duration-500"
                 priority
               />
               <button 
                 onClick={close}
                 className="md:hidden p-2 hover:bg-slate-50 rounded-lg text-slate-400"
+                aria-label="Fechar menu"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -89,7 +89,7 @@ export default function Sidebar() {
           </div>
         </div>
 
-        <nav className="flex-1 px-4 py-4 space-y-1">
+        <nav className="flex-1 px-4 py-2 space-y-1 overflow-y-auto">
           {linksToMap.map((link) => {
             const Icon = link.icon;
             const isActive = pathname === link.href;

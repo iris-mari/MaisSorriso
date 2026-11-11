@@ -159,13 +159,13 @@ export default function DentalChart({
   );
 
   return (
-    <div className="flex flex-col items-center p-4 sm:p-6 md:p-8 bg-slate-50/40 rounded-[2.5rem] md:rounded-[3rem] border border-slate-100/80 shadow-inner">
+    <div className="flex flex-col items-center p-2 sm:p-6 md:p-8 bg-slate-50/40 rounded-2xl sm:rounded-[2.5rem] md:rounded-[3rem] border border-slate-100/80 shadow-inner w-full">
       {/* Category Filters */}
-      <div className="flex gap-1 p-1 bg-slate-200/50 backdrop-blur-sm rounded-2xl border border-slate-200/20 max-w-md w-full mb-8 shadow-sm">
+      <div className="flex gap-1 p-1 bg-slate-200/50 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-slate-200/20 max-w-md w-full mb-4 sm:mb-8 shadow-sm">
         <button
           onClick={() => setFilter("todos")}
           type="button"
-          className={`flex-1 py-2 px-4 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-300 ${
+          className={`flex-1 py-1.5 sm:py-2 px-2 sm:px-4 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-wider transition-all duration-300 ${
             filter === "todos"
               ? "bg-white text-slate-800 shadow-sm border border-slate-100"
               : "text-slate-500 hover:text-slate-700"
@@ -176,7 +176,7 @@ export default function DentalChart({
         <button
           onClick={() => setFilter("adulto")}
           type="button"
-          className={`flex-1 py-2 px-4 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-300 ${
+          className={`flex-1 py-1.5 sm:py-2 px-2 sm:px-4 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-wider transition-all duration-300 ${
             filter === "adulto"
               ? "bg-white text-slate-800 shadow-sm border border-slate-100"
               : "text-slate-500 hover:text-slate-700"
@@ -187,7 +187,7 @@ export default function DentalChart({
         <button
           onClick={() => setFilter("infantil")}
           type="button"
-          className={`flex-1 py-2 px-4 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-300 ${
+          className={`flex-1 py-1.5 sm:py-2 px-2 sm:px-4 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-wider transition-all duration-300 ${
             filter === "infantil"
               ? "bg-white text-slate-800 shadow-sm border border-slate-100"
               : "text-slate-500 hover:text-slate-700"
@@ -198,7 +198,8 @@ export default function DentalChart({
       </div>
 
       {/* Interactive Odontogram Parabolic Board */}
-      <div className="relative w-full aspect-[800/700] max-w-[650px] bg-white rounded-[2rem] border border-slate-100/50 shadow-sm overflow-hidden p-2 select-none">
+      <div className="w-full flex justify-center overflow-x-auto py-1">
+        <div className="relative w-full aspect-[800/700] min-w-[280px] max-w-[650px] bg-white rounded-2xl sm:rounded-[2rem] border border-slate-100/50 shadow-sm overflow-hidden p-1 sm:p-2 select-none">
         
         {/* Background Guide lines (SVG coords correspond directly to percentages) */}
         <svg
@@ -296,20 +297,21 @@ export default function DentalChart({
             onClick={onToothSelect}
           />
         ))}
+        </div>
       </div>
 
       {/* Legend section */}
-      <div className="mt-8 flex flex-wrap justify-center gap-6 sm:gap-8 bg-white px-8 py-4 rounded-2xl border border-slate-100 shadow-sm text-xs font-bold text-slate-600">
-        <div className="flex items-center gap-2">
-          <span className="w-3.5 h-3.5 rounded-md bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-700 shadow-sm" />
+      <div className="mt-6 sm:mt-8 flex flex-wrap justify-center gap-3 sm:gap-6 md:gap-8 bg-white px-4 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl border border-slate-100 shadow-sm text-[10px] sm:text-xs font-bold text-slate-600">
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          <span className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-md bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-700 shadow-sm" />
           <span>Selecionado</span>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="w-3.5 h-3.5 rounded-md bg-gradient-to-b from-red-400 to-red-500 border border-red-600 shadow-sm" />
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          <span className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-md bg-gradient-to-b from-red-400 to-red-500 border border-red-600 shadow-sm" />
           <span>Com Registro</span>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="w-3.5 h-3.5 rounded-md bg-gradient-to-b from-slate-50 to-slate-200 border border-slate-350 shadow-sm" />
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          <span className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-md bg-gradient-to-b from-slate-50 to-slate-200 border border-slate-350 shadow-sm" />
           <span>Sem Registro</span>
         </div>
       </div>

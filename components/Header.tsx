@@ -97,16 +97,17 @@ export default function Header() {
   };
 
   return (
-    <header className="h-24 sticky top-0 bg-white/80 backdrop-blur-md border-b border-slate-200/60 z-40 px-4 md:px-10 flex items-center justify-between">
-      <div className="flex items-center gap-4 flex-1">
+    <header className="h-20 sm:h-24 sticky top-0 bg-white/80 backdrop-blur-md border-b border-slate-200/60 z-40 px-3 sm:px-6 md:px-10 flex items-center justify-between">
+      <div className="flex items-center gap-2 sm:gap-4 flex-1">
         <button
           onClick={toggle}
-          className="md:hidden p-3 hover:bg-slate-50 rounded-2xl text-slate-500 border border-slate-100 shadow-sm transition-all"
+          aria-label="Abrir menu"
+          className="md:hidden p-2.5 hover:bg-slate-50 rounded-2xl text-slate-500 border border-slate-100 shadow-sm transition-all shrink-0"
         >
-          <Menu className="w-6 h-6" />
+          <Menu className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
 
-        <div className="hidden md:flex items-center gap-4 bg-slate-50 hover:bg-white px-5 py-3 rounded-2xl border border-slate-200/50 flex-1 w-full transition-all duration-300 group focus-within:ring-4 focus-within:ring-blue-50 focus-within:border-blue-200 ml-0 md:ml-0">
+        <div className="hidden md:flex items-center gap-4 bg-slate-50 hover:bg-white px-5 py-3 rounded-2xl border border-slate-200/50 flex-1 max-w-lg transition-all duration-300 group focus-within:ring-4 focus-within:ring-blue-50 focus-within:border-blue-200">
           <Search className="w-5 h-5 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
           <input
             type="text"
@@ -119,12 +120,16 @@ export default function Header() {
         </div>
       </div>
 
-      <div className="flex items-center gap-2 md:gap-6 ml-4">
+      <div className="flex items-center gap-2 sm:gap-4 md:gap-6 ml-2 sm:ml-4">
         {isAdmin ? (
-          <Link href="/requests" className="hidden sm:flex p-3 rounded-2xl hover:bg-slate-50 transition-all relative group bg-white shadow-sm border border-slate-100">
+          <Link 
+            href="/requests" 
+            title="Solicitações pendentes"
+            className="flex p-2.5 sm:p-3 rounded-2xl hover:bg-slate-50 transition-all relative group bg-white shadow-sm border border-slate-100"
+          >
             <Bell className="w-5 h-5 text-slate-500 group-hover:text-blue-600" />
             {pendingCount > 0 && (
-              <span className="absolute top-2.5 right-2.5 w-2.5 h-2.5 bg-blue-500 rounded-full border-2 border-white animate-pulse"></span>
+              <span className="absolute top-2 right-2 w-2.5 h-2.5 bg-blue-500 rounded-full border-2 border-white animate-pulse"></span>
             )}
           </Link>
         ) : (
@@ -132,16 +137,17 @@ export default function Header() {
             <div className="relative" onClick={(e) => e.stopPropagation()}>
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="flex p-3 rounded-2xl hover:bg-slate-50 transition-all relative group bg-white shadow-sm border border-slate-100 cursor-pointer"
+                className="flex p-2.5 sm:p-3 rounded-2xl hover:bg-slate-50 transition-all relative group bg-white shadow-sm border border-slate-100 cursor-pointer"
+                aria-label="Notificações"
               >
                 <Bell className="w-5 h-5 text-slate-500 group-hover:text-blue-600" />
                 {notifications.filter((n) => !n.read).length > 0 && (
-                  <span className="absolute top-2.5 right-2.5 w-2.5 h-2.5 bg-blue-500 rounded-full border-2 border-white animate-pulse"></span>
+                  <span className="absolute top-2 right-2 w-2.5 h-2.5 bg-blue-500 rounded-full border-2 border-white animate-pulse"></span>
                 )}
               </button>
 
               {isDropdownOpen && (
-                <div className="absolute right-0 mt-3 w-80 bg-white rounded-2xl border border-slate-100 shadow-2xl z-50 overflow-hidden transform origin-top-right transition-all animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="absolute right-0 mt-3 w-[calc(100vw-2rem)] max-w-sm sm:w-80 bg-white rounded-2xl border border-slate-100 shadow-2xl z-50 overflow-hidden transform origin-top-right transition-all animate-in fade-in slide-in-from-top-2 duration-200">
                   <div className="p-4 border-b border-slate-50 flex items-center justify-between bg-slate-50/30">
                     <span className="text-[10px] font-black text-slate-700 uppercase tracking-wider">Notificações</span>
                     {notifications.filter((n) => !n.read).length > 0 && (
@@ -201,7 +207,7 @@ export default function Header() {
 
         <div className="hidden sm:block h-8 w-px bg-slate-200"></div>
 
-        <div className="flex items-center gap-3 md:gap-4 pl-0 md:pl-2 group cursor-pointer relative">
+        <div className="flex items-center gap-2 sm:gap-4 pl-0 md:pl-2 group cursor-pointer relative">
           <div className="text-right hidden lg:block">
             <p className="text-sm font-black text-slate-900 group-hover:text-blue-600 transition-colors uppercase tracking-tight truncate max-w-[150px]">
               {userName}
@@ -210,15 +216,16 @@ export default function Header() {
               {userRole}
             </p>
           </div>
-          <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 p-0.5 shadow-inner transition-transform group-hover:scale-105 border border-slate-100/50">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 p-0.5 shadow-inner transition-transform group-hover:scale-105 border border-slate-100/50 shrink-0">
             <div className="w-full h-full rounded-[14px] bg-white flex items-center justify-center text-blue-600">
-              <User className="w-5 h-5 md:w-6 md:h-6" />
+              <User className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
             </div>
           </div>
           <button
             onClick={handleLogout}
-            className="p-3 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-2xl transition-all"
+            className="p-2 sm:p-2.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-2xl transition-all shrink-0"
             title="Sair do sistema"
+            aria-label="Sair"
           >
             <LogOut className="w-5 h-5" />
           </button>
