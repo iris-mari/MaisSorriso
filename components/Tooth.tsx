@@ -83,7 +83,7 @@ export default function Tooth({
         <span
           className={`
             text-[6px] min-[380px]:text-[7px] sm:text-[8px] md:text-[9px] font-black tracking-tighter mb-0.5 transition-colors duration-300 select-none leading-none
-            ${isSelected ? "text-blue-600 font-extrabold" : hasRecord ? "text-red-500 font-extrabold" : "text-slate-400 group-hover:text-slate-600"}
+            ${isSelected ? "text-theme-primary font-extrabold" : hasRecord ? "text-red-500 font-extrabold" : "text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-300"}
           `}
         >
           {number}
@@ -99,14 +99,14 @@ export default function Tooth({
           viewBox={`0 0 ${width} ${height}`}
           className={`
             w-full h-full filter drop-shadow-[0_1px_1px_rgba(0,0,0,0.05)] transition-all duration-300
-            ${isSelected ? "drop-shadow-[0_0_6px_rgba(59,130,246,0.4)]" : hasRecord ? "drop-shadow-[0_0_6px_rgba(239,68,68,0.4)]" : "group-hover:drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]"}
+            ${isSelected ? "drop-shadow-[0_0_8px_var(--primary-ring)]" : hasRecord ? "drop-shadow-[0_0_6px_rgba(239,68,68,0.4)]" : "group-hover:drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]"}
           `}
         >
           <defs>
             {isSelected ? (
               <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#60a5fa" />
-                <stop offset="100%" stopColor="#2563eb" />
+                <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="var(--primary)" />
               </linearGradient>
             ) : hasRecord ? (
               <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
@@ -125,7 +125,7 @@ export default function Tooth({
           <path
             d={toothPath}
             fill={`url(#${gradId})`}
-            stroke={isSelected ? "#1d4ed8" : hasRecord ? "#991b1b" : "#cbd5e1"}
+            stroke={isSelected ? "var(--primary-hover)" : hasRecord ? "#991b1b" : "#cbd5e1"}
             strokeWidth={isSelected || hasRecord ? 1.5 : 1}
             className="transition-all duration-300"
           />
@@ -191,7 +191,7 @@ export default function Tooth({
         <span
           className={`
             text-[6px] min-[380px]:text-[7px] sm:text-[8px] md:text-[9px] font-black tracking-tighter mt-0.5 transition-colors duration-300 select-none leading-none
-            ${isSelected ? "text-blue-600 font-extrabold" : hasRecord ? "text-red-500 font-extrabold" : "text-slate-400 group-hover:text-slate-600"}
+            ${isSelected ? "text-theme-primary font-extrabold" : hasRecord ? "text-red-500 font-extrabold" : "text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-300"}
           `}
         >
           {number}

@@ -11,7 +11,7 @@ export default function DashboardLayout({
 }) {
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen bg-slate-50/50">
+      <div className="flex min-h-screen bg-slate-50/50 dark:bg-[#0b1120] text-slate-900 dark:text-slate-100 transition-colors duration-200">
         <Sidebar />
         <div className="flex-1 flex flex-col min-w-0 transition-all duration-300 md:pl-72">
           <Header />

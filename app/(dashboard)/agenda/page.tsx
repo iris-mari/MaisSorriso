@@ -391,18 +391,18 @@ export default function AgendaPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6">
         <div className="space-y-1 sm:space-y-2">
           <div className="flex items-center gap-3 flex-wrap">
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">Agenda</h2>
+            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">Agenda</h2>
             {currentUser?.role === "ADMIN" ? (
-              <span className="px-3 py-1 bg-purple-50 text-purple-700 text-[10px] sm:text-xs font-black rounded-full uppercase tracking-wider border border-purple-100">
+              <span className="px-3 py-1 bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 text-[10px] sm:text-xs font-black rounded-full uppercase tracking-wider border border-purple-100 dark:border-purple-800">
                 Visão Macro Geral
               </span>
             ) : (
-              <span className="px-3 py-1 bg-blue-50 text-blue-700 text-[10px] sm:text-xs font-black rounded-full uppercase tracking-wider border border-blue-100">
+              <span className="px-3 py-1 bg-theme-primary-light text-theme-primary text-[10px] sm:text-xs font-black rounded-full uppercase tracking-wider border border-theme-primary-border">
                 Agenda Individual
               </span>
             )}
           </div>
-          <p className="text-slate-500 text-xs sm:text-sm font-medium">
+          <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm font-medium">
             {currentUser?.role === "ADMIN"
               ? "Gerencie as consultas e visualize o fluxo clínico de todos os dentistas."
               : `Bem-vindo(a), ${currentUser?.name || "Dr(a)"}. Exibindo apenas suas consultas e procedimentos.`}
@@ -411,7 +411,7 @@ export default function AgendaPage() {
 
         <button
           onClick={handleOpenCreateModal}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-[1.5rem] font-black flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-100 hover:scale-105 active:scale-95 cursor-pointer self-start sm:self-auto text-xs sm:text-sm w-full sm:w-auto"
+          className="bg-theme-primary hover:bg-theme-primary-hover text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-[1.5rem] font-black flex items-center justify-center gap-3 transition-all shadow-xl shadow-theme-primary hover:scale-105 active:scale-95 cursor-pointer self-start sm:self-auto text-xs sm:text-sm w-full sm:w-auto"
         >
           <Plus className="w-5 h-5 stroke-[3]" />
           Agendar Consulta
@@ -420,10 +420,10 @@ export default function AgendaPage() {
 
       {/* BARRA DE FILTROS EXCLUSIVA DO ADMINISTRADOR */}
       {currentUser?.role === "ADMIN" && (
-        <div className="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] border border-slate-100 shadow-premium flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="bg-white dark:bg-[#131d33] p-4 sm:p-6 rounded-2xl sm:rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-premium flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-            <div className="flex items-center gap-2 text-slate-400 font-black text-[10px] sm:text-xs uppercase tracking-wider mr-1 sm:mr-2">
-              <Filter className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-600" />
+            <div className="flex items-center gap-2 text-slate-400 dark:text-slate-500 font-black text-[10px] sm:text-xs uppercase tracking-wider mr-1 sm:mr-2">
+              <Filter className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-theme-primary" />
               Filtrar por Dentista:
             </div>
 
@@ -431,8 +431,8 @@ export default function AgendaPage() {
               onClick={() => setSelectedDentistIds([])}
               className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl text-[11px] sm:text-xs font-black transition-all flex items-center gap-2 ${
                 selectedDentistIds.length === 0
-                  ? "bg-blue-600 text-white shadow-lg shadow-blue-100 scale-105"
-                  : "bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-100"
+                  ? "bg-theme-primary text-white shadow-lg shadow-theme-primary scale-105"
+                  : "bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-100 dark:border-slate-700"
               }`}
             >
               {selectedDentistIds.length === 0 && <Check className="w-3.5 h-3.5 stroke-[3]" />}
@@ -447,11 +447,11 @@ export default function AgendaPage() {
                   onClick={() => toggleDentistFilter(d.id)}
                   className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl text-[11px] sm:text-xs font-black transition-all flex items-center gap-2 ${
                     active
-                      ? "bg-blue-600 text-white shadow-lg shadow-blue-100 scale-105"
-                      : "bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-100"
+                      ? "bg-theme-primary text-white shadow-lg shadow-theme-primary scale-105"
+                      : "bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-100 dark:border-slate-700"
                   }`}
                 >
-                  <Stethoscope className={`w-3.5 h-3.5 ${active ? "text-white" : "text-blue-500"}`} />
+                  <Stethoscope className={`w-3.5 h-3.5 ${active ? "text-white" : "text-theme-primary"}`} />
                   {d.name}
                   {active && <Check className="w-3.5 h-3.5 stroke-[3] ml-1" />}
                 </button>
@@ -474,16 +474,16 @@ export default function AgendaPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 items-start">
         {/* LISTAGEM DO DIA SELECIONADO */}
         <div className="lg:col-span-2 space-y-4 sm:space-y-6">
-          <div className="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-[2.5rem] border border-slate-100 shadow-premium flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="bg-white dark:bg-[#131d33] p-4 sm:p-6 rounded-2xl sm:rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-premium flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex items-center gap-3 sm:gap-4">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-black shrink-0">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-theme-primary-light text-theme-primary flex items-center justify-center font-black shrink-0">
                 <Clock3 className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
               <div>
-                <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-slate-400">
+                <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
                   Consultas do Dia
                 </span>
-                <h3 className="text-base sm:text-xl font-black text-slate-900 tracking-tight capitalize">
+                <h3 className="text-base sm:text-xl font-black text-slate-900 dark:text-white tracking-tight capitalize">
                   {selectedDate.toLocaleDateString("pt-BR", {
                     weekday: "long",
                     day: "2-digit",
@@ -495,28 +495,28 @@ export default function AgendaPage() {
             </div>
 
             <div className="flex items-center gap-3 self-end sm:self-auto">
-              <span className="px-3 sm:px-4 py-1.5 sm:py-2 bg-slate-50 text-slate-600 text-[10px] sm:text-xs font-black rounded-xl border border-slate-100">
+              <span className="px-3 sm:px-4 py-1.5 sm:py-2 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-[10px] sm:text-xs font-black rounded-xl border border-slate-100 dark:border-slate-700">
                 {appointmentsForSelectedDate.length} agendamento(s)
               </span>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl sm:rounded-[3rem] border border-slate-100 shadow-premium overflow-hidden">
+          <div className="bg-white dark:bg-[#131d33] rounded-2xl sm:rounded-[3rem] border border-slate-100 dark:border-slate-800 shadow-premium overflow-hidden">
             {loading ? (
               <div className="p-12 sm:p-20 text-center text-slate-400">
-                <Loader2 className="w-8 h-8 sm:w-10 sm:h-10 animate-spin mx-auto mb-3 sm:mb-4 text-blue-500" />
-                <p className="font-bold text-xs sm:text-sm tracking-tight text-slate-500">Sincronizando agenda...</p>
+                <Loader2 className="w-8 h-8 sm:w-10 sm:h-10 animate-spin mx-auto mb-3 sm:mb-4 text-theme-primary" />
+                <p className="font-bold text-xs sm:text-sm tracking-tight text-slate-500 dark:text-slate-400">Sincronizando agenda...</p>
               </div>
             ) : appointmentsForSelectedDate.length === 0 ? (
               <div className="p-8 sm:p-20 text-center space-y-4">
-                <div className="bg-slate-50 w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto text-slate-300">
+                <div className="bg-slate-50 dark:bg-slate-800 w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto text-slate-300 dark:text-slate-600">
                   <CalendarIcon className="w-8 h-8 sm:w-10 sm:h-10" />
                 </div>
                 <div>
-                  <p className="text-slate-600 font-black text-base sm:text-lg tracking-tight">
+                  <p className="text-slate-600 dark:text-slate-300 font-black text-base sm:text-lg tracking-tight">
                     Nenhuma consulta para este dia.
                   </p>
-                  <p className="text-slate-400 text-xs font-medium mt-1">
+                  <p className="text-slate-400 dark:text-slate-500 text-xs font-medium mt-1">
                     {currentUser?.role === "ADMIN" && selectedDentistIds.length > 0
                       ? "Nenhum agendamento encontrado para os dentistas filtrados nesta data."
                       : "Sua agenda está livre neste dia."}
@@ -524,14 +524,14 @@ export default function AgendaPage() {
                 </div>
                 <button
                   onClick={handleOpenCreateModal}
-                  className="inline-flex items-center gap-2 bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl text-xs font-black transition-all cursor-pointer"
+                  className="inline-flex items-center gap-2 bg-theme-primary-light text-theme-primary hover:bg-theme-primary hover:text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl text-xs font-black transition-all cursor-pointer"
                 >
                   <Plus className="w-4 h-4" />
                   Agendar para este dia
                 </button>
               </div>
             ) : (
-              <div className="divide-y divide-slate-50">
+              <div className="divide-y divide-slate-50 dark:divide-slate-800/80">
                 {appointmentsForSelectedDate.map((appointment) => {
                   const date = new Date(appointment.date);
                   const statusInfo = STATUS_CONFIG[appointment.status || "CONFIRMADO"] || STATUS_CONFIG.CONFIRMADO;
@@ -539,14 +539,14 @@ export default function AgendaPage() {
                   return (
                     <div
                       key={appointment.id}
-                      className="p-4 sm:p-6 md:p-8 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 hover:bg-slate-50/60 transition-all group"
+                      className="p-4 sm:p-6 md:p-8 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-all group"
                     >
                       {/* Horário */}
-                      <div className="flex sm:flex-col items-center justify-between sm:justify-center bg-slate-50 group-hover:bg-blue-600 group-hover:text-white px-4 py-2 sm:px-0 sm:py-0 w-full sm:w-20 sm:h-20 rounded-xl sm:rounded-[1.75rem] border border-slate-100 group-hover:border-blue-600 shadow-sm transition-all duration-300 shrink-0">
-                        <span className="text-base sm:text-xl font-black text-slate-900 group-hover:text-white transition-colors tracking-tighter">
+                      <div className="flex sm:flex-col items-center justify-between sm:justify-center bg-slate-50 dark:bg-slate-800 group-hover:bg-theme-primary group-hover:text-white px-4 py-2 sm:px-0 sm:py-0 w-full sm:w-20 sm:h-20 rounded-xl sm:rounded-[1.75rem] border border-slate-100 dark:border-slate-700 group-hover:border-transparent shadow-sm transition-all duration-300 shrink-0">
+                        <span className="text-base sm:text-xl font-black text-slate-900 dark:text-white group-hover:text-white transition-colors tracking-tighter">
                           {date.getHours().toString().padStart(2, "0")}:{date.getMinutes().toString().padStart(2, "0")}
                         </span>
-                        <span className="text-[8px] font-black text-blue-600 group-hover:text-blue-100 uppercase tracking-widest sm:mt-0.5">
+                        <span className="text-[8px] font-black text-theme-primary group-hover:text-white uppercase tracking-widest sm:mt-0.5">
                           HORÁRIO
                         </span>
                       </div>
@@ -560,26 +560,26 @@ export default function AgendaPage() {
                             {statusInfo.label}
                           </span>
                           {appointment.patient.phone && (
-                            <span className="text-[11px] font-bold text-slate-400 flex items-center gap-1">
-                              <Phone className="w-3 h-3 text-slate-300" />
+                            <span className="text-[11px] font-bold text-slate-400 dark:text-slate-500 flex items-center gap-1">
+                              <Phone className="w-3 h-3 text-slate-300 dark:text-slate-600" />
                               {appointment.patient.phone}
                             </span>
                           )}
                         </div>
 
-                        <h4 className="text-xl font-black text-slate-900 group-hover:text-blue-600 transition-colors tracking-tight truncate">
+                        <h4 className="text-xl font-black text-slate-900 dark:text-white group-hover:text-theme-primary transition-colors tracking-tight truncate">
                           {appointment.patient.name}
                         </h4>
 
-                        <div className="flex items-center gap-4 flex-wrap text-xs font-bold text-slate-500">
+                        <div className="flex items-center gap-4 flex-wrap text-xs font-bold text-slate-500 dark:text-slate-400">
                           {/* Procedimento */}
-                          <div className="flex items-center gap-1.5 text-blue-600 bg-blue-50/70 px-3 py-1 rounded-xl">
+                          <div className="flex items-center gap-1.5 text-theme-primary bg-theme-primary-light px-3 py-1 rounded-xl">
                             <Activity className="w-3.5 h-3.5" />
                             <span>{appointment.procedure || "Consulta Odontológica Geral"}</span>
                           </div>
 
-                          {/* Dentista Responsável (Visível sempre, especialmente para Admin) */}
-                          <div className="flex items-center gap-1.5 text-slate-500 bg-slate-100/60 px-3 py-1 rounded-xl">
+                          {/* Dentista Responsável */}
+                          <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-xl">
                             <Stethoscope className="w-3.5 h-3.5 text-slate-400" />
                             <span>{appointment.dentist?.name || "Dentista da Clínica"}</span>
                           </div>
@@ -591,7 +591,7 @@ export default function AgendaPage() {
                         <Link
                           href={`/prontuario?patientId=${appointment.patient.id}`}
                           title="Abrir Prontuário"
-                          className="px-4 py-2.5 rounded-xl bg-slate-50 hover:bg-blue-50 text-slate-600 hover:text-blue-600 text-xs font-black flex items-center gap-1.5 border border-slate-100 transition-all"
+                          className="px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-theme-primary-light text-slate-600 dark:text-slate-300 hover:text-theme-primary text-xs font-black flex items-center gap-1.5 border border-slate-100 dark:border-slate-700 transition-all"
                         >
                           <ExternalLink className="w-3.5 h-3.5" />
                           Prontuário
@@ -600,7 +600,7 @@ export default function AgendaPage() {
                         <button
                           onClick={() => handleEdit(appointment)}
                           title="Editar Consulta"
-                          className="p-2.5 rounded-xl hover:bg-blue-600 hover:text-white text-slate-400 transition-all border border-slate-100 shadow-sm cursor-pointer"
+                          className="p-2.5 rounded-xl hover:bg-theme-primary hover:text-white text-slate-400 dark:text-slate-500 transition-all border border-slate-100 dark:border-slate-700 shadow-sm cursor-pointer"
                         >
                           <Edit className="w-4 h-4" />
                         </button>
@@ -608,7 +608,7 @@ export default function AgendaPage() {
                         <button
                           onClick={() => handleDelete(appointment.id)}
                           title="Desmarcar Consulta"
-                          className="p-2.5 rounded-xl hover:bg-rose-600 hover:text-white text-slate-400 transition-all border border-slate-100 shadow-sm cursor-pointer"
+                          className="p-2.5 rounded-xl hover:bg-rose-600 hover:text-white text-slate-400 dark:text-slate-500 transition-all border border-slate-100 dark:border-slate-700 shadow-sm cursor-pointer"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -623,12 +623,12 @@ export default function AgendaPage() {
 
         {/* CALENDÁRIO INTERATIVO */}
         <div className="space-y-6">
-          <div className="bg-white p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-[3rem] border border-slate-100 shadow-premium space-y-4 sm:space-y-6">
+          <div className="bg-white dark:bg-[#131d33] p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-[3rem] border border-slate-100 dark:border-slate-800 shadow-premium space-y-4 sm:space-y-6">
             {/* Controles do Mês */}
             <div className="flex items-center justify-between">
               <div>
-                <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">Navegação</span>
-                <h3 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight capitalize">
+                <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">Navegação</span>
+                <h3 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white tracking-tight capitalize">
                   {currentMonth.toLocaleDateString("pt-BR", { month: "long", year: "numeric" })}
                 </h3>
               </div>
@@ -637,21 +637,21 @@ export default function AgendaPage() {
                 <button
                   onClick={handlePrevMonth}
                   title="Mês anterior"
-                  className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center hover:bg-slate-50 rounded-xl transition-all border border-transparent hover:border-slate-100 cursor-pointer"
+                  className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-all border border-transparent hover:border-slate-100 dark:hover:border-slate-700 cursor-pointer"
                 >
                   <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400" />
                 </button>
                 <button
                   onClick={handleGoToToday}
                   title="Ir para hoje"
-                  className="px-2.5 sm:px-3 py-1 sm:py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-600 text-[10px] sm:text-xs font-black rounded-xl transition-all cursor-pointer"
+                  className="px-2.5 sm:px-3 py-1 sm:py-1.5 bg-theme-primary-light hover:opacity-90 text-theme-primary text-[10px] sm:text-xs font-black rounded-xl transition-all cursor-pointer"
                 >
                   Hoje
                 </button>
                 <button
                   onClick={handleNextMonth}
                   title="Próximo mês"
-                  className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center hover:bg-slate-50 rounded-xl transition-all border border-transparent hover:border-slate-100 cursor-pointer"
+                  className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-all border border-transparent hover:border-slate-100 dark:hover:border-slate-700 cursor-pointer"
                 >
                   <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400" />
                 </button>
@@ -661,7 +661,7 @@ export default function AgendaPage() {
             {/* Cabeçalho dos Dias da Semana */}
             <div className="grid grid-cols-7 text-center">
               {["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SÁB"].map((d) => (
-                <span key={d} className="text-[8px] sm:text-[10px] font-black text-slate-300 tracking-widest py-1">
+                <span key={d} className="text-[8px] sm:text-[10px] font-black text-slate-400 dark:text-slate-500 tracking-widest py-1">
                   {d}
                 </span>
               ))}
@@ -680,12 +680,12 @@ export default function AgendaPage() {
                       onClick={() => handleSelectDay(cell)}
                       className={`w-8 h-8 sm:w-10 sm:h-10 text-xs sm:text-sm font-black rounded-xl sm:rounded-2xl transition-all relative flex flex-col items-center justify-center group cursor-pointer ${
                         active
-                          ? "bg-blue-600 text-white shadow-xl shadow-blue-200 scale-105"
+                          ? "bg-theme-primary text-white shadow-xl shadow-theme-primary scale-105"
                           : today
-                          ? "border-2 border-blue-500 text-blue-600 font-extrabold hover:bg-blue-50"
+                          ? "border-2 border-theme-primary text-theme-primary font-extrabold hover:bg-theme-primary-light"
                           : cell.isCurrentMonth
-                          ? "text-slate-700 hover:bg-slate-50 hover:text-blue-600"
-                          : "text-slate-300 hover:text-slate-500 hover:bg-slate-50/50"
+                          ? "text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-theme-primary"
+                          : "text-slate-300 dark:text-slate-600 hover:text-slate-500 hover:bg-slate-50/50 dark:hover:bg-slate-800/40"
                       }`}
                     >
                       <span>{cell.day}</span>
@@ -694,7 +694,7 @@ export default function AgendaPage() {
                       {count > 0 && (
                         <span
                           className={`absolute bottom-1 w-1.5 h-1.5 rounded-full transition-colors ${
-                            active ? "bg-white" : "bg-blue-500"
+                            active ? "bg-white" : "bg-theme-primary"
                           }`}
                         />
                       )}
@@ -705,17 +705,17 @@ export default function AgendaPage() {
             </div>
 
             {/* Legenda */}
-            <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-slate-400">
+            <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px] font-bold text-slate-400 dark:text-slate-500">
               <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full border border-blue-500"></span>
+                <span className="w-2 h-2 rounded-full border border-theme-primary"></span>
                 <span>Hoje</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-blue-500"></span>
+                <span className="w-2 h-2 rounded-full bg-theme-primary"></span>
                 <span>Com consultas</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-md bg-blue-600"></span>
+                <span className="w-2.5 h-2.5 rounded-md bg-theme-primary"></span>
                 <span>Selecionado</span>
               </div>
             </div>
@@ -732,12 +732,12 @@ export default function AgendaPage() {
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Paciente */}
           <div className="space-y-2">
-            <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">
+            <label className="text-xs font-black text-slate-400 dark:text-slate-400 uppercase tracking-widest ml-1">
               Paciente <span className="text-rose-500">*</span>
             </label>
             <select
               required
-              className="w-full px-5 py-4 rounded-2xl border border-slate-100 bg-slate-50 focus:bg-white focus:border-blue-500 focus:ring-8 focus:ring-blue-50 transition-all outline-none font-bold text-slate-700"
+              className="w-full px-5 py-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-800 focus:border-theme-primary focus:ring-2 focus:ring-theme-primary transition-all outline-none font-bold text-xs sm:text-sm"
               value={formData.patientId}
               onChange={(e) => setFormData({ ...formData, patientId: e.target.value })}
             >
@@ -752,14 +752,14 @@ export default function AgendaPage() {
 
           {/* Procedimento */}
           <div className="space-y-2">
-            <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">
+            <label className="text-xs font-black text-slate-400 dark:text-slate-400 uppercase tracking-widest ml-1">
               Procedimento / Motivo
             </label>
             <input
               type="text"
               list="procedures-list"
               placeholder="Ex: Avaliação Inicial, Restauração..."
-              className="w-full px-5 py-4 rounded-2xl border border-slate-100 bg-slate-50 focus:bg-white focus:border-blue-500 focus:ring-8 focus:ring-blue-50 transition-all outline-none font-bold text-slate-700"
+              className="w-full px-5 py-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-800 focus:border-theme-primary focus:ring-2 focus:ring-theme-primary transition-all outline-none font-bold text-xs sm:text-sm"
               value={formData.procedure}
               onChange={(e) => setFormData({ ...formData, procedure: e.target.value })}
             />
@@ -773,21 +773,21 @@ export default function AgendaPage() {
           {/* Dentista */}
           {currentUser?.role === "DENTISTA" ? (
             <div className="space-y-2">
-              <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">
+              <label className="text-xs font-black text-slate-400 dark:text-slate-400 uppercase tracking-widest ml-1">
                 Dentista Responsável
               </label>
-              <div className="w-full px-5 py-4 rounded-2xl border border-slate-100 bg-slate-100 font-black text-slate-700 flex items-center gap-2">
-                <Stethoscope className="w-4 h-4 text-blue-600" />
+              <div className="w-full px-5 py-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 font-black text-slate-700 dark:text-slate-200 flex items-center gap-2 text-xs sm:text-sm">
+                <Stethoscope className="w-4 h-4 text-theme-primary" />
                 {currentUser.name} (Você)
               </div>
             </div>
           ) : (
             <div className="space-y-2">
-              <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">
+              <label className="text-xs font-black text-slate-400 dark:text-slate-400 uppercase tracking-widest ml-1">
                 Dentista Responsável
               </label>
               <select
-                className="w-full px-5 py-4 rounded-2xl border border-slate-100 bg-slate-50 focus:bg-white focus:border-blue-500 focus:ring-8 focus:ring-blue-50 transition-all outline-none font-bold text-slate-700"
+                className="w-full px-5 py-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-800 focus:border-theme-primary focus:ring-2 focus:ring-theme-primary transition-all outline-none font-bold text-xs sm:text-sm"
                 value={formData.dentistId}
                 onChange={(e) => setFormData({ ...formData, dentistId: e.target.value })}
               >
@@ -803,11 +803,11 @@ export default function AgendaPage() {
 
           {/* Status */}
           <div className="space-y-2">
-            <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">
+            <label className="text-xs font-black text-slate-400 dark:text-slate-400 uppercase tracking-widest ml-1">
               Status da Consulta
             </label>
             <select
-              className="w-full px-5 py-4 rounded-2xl border border-slate-100 bg-slate-50 focus:bg-white focus:border-blue-500 focus:ring-8 focus:ring-blue-50 transition-all outline-none font-bold text-slate-700"
+              className="w-full px-5 py-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-800 focus:border-theme-primary focus:ring-2 focus:ring-theme-primary transition-all outline-none font-bold text-xs sm:text-sm"
               value={formData.status}
               onChange={(e) => setFormData({ ...formData, status: e.target.value })}
             >
@@ -822,25 +822,25 @@ export default function AgendaPage() {
           {/* Data e Horário */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">
+              <label className="text-xs font-black text-slate-400 dark:text-slate-400 uppercase tracking-widest ml-1">
                 Data <span className="text-rose-500">*</span>
               </label>
               <input
                 required
                 type="date"
-                className="w-full px-5 py-4 rounded-2xl border border-slate-100 bg-slate-50 focus:bg-white focus:border-blue-500 focus:ring-8 focus:ring-blue-50 transition-all outline-none font-bold text-slate-700"
+                className="w-full px-5 py-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-800 focus:border-theme-primary focus:ring-2 focus:ring-theme-primary transition-all outline-none font-bold text-xs sm:text-sm"
                 value={formData.date}
                 onChange={(e) => setFormData({ ...formData, date: e.target.value })}
               />
             </div>
             <div className="space-y-2">
-              <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">
+              <label className="text-xs font-black text-slate-400 dark:text-slate-400 uppercase tracking-widest ml-1">
                 Horário <span className="text-rose-500">*</span>
               </label>
               <input
                 required
                 type="time"
-                className="w-full px-5 py-4 rounded-2xl border border-slate-100 bg-slate-50 focus:bg-white focus:border-blue-500 focus:ring-8 focus:ring-blue-50 transition-all outline-none font-bold text-slate-700"
+                className="w-full px-5 py-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-800 focus:border-theme-primary focus:ring-2 focus:ring-theme-primary transition-all outline-none font-bold text-xs sm:text-sm"
                 value={formData.time}
                 onChange={(e) => setFormData({ ...formData, time: e.target.value })}
               />
@@ -850,7 +850,7 @@ export default function AgendaPage() {
           <button
             type="submit"
             disabled={isSubmitting || !formData.patientId || !formData.date || !formData.time}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-5 rounded-2xl shadow-xl shadow-blue-100 transition-all flex items-center justify-center gap-3 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+            className="w-full bg-theme-primary hover:bg-theme-primary-hover text-white font-black py-4 sm:py-5 rounded-2xl shadow-xl shadow-theme-primary transition-all flex items-center justify-center gap-3 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 cursor-pointer text-xs sm:text-sm"
           >
             {isSubmitting ? (
               <Loader2 className="w-5 h-5 animate-spin" />

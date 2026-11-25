@@ -51,28 +51,28 @@ export default function DentalChart({
     const list: ToothPosition[] = [];
 
     // Permanent teeth configuration (W_x = 32 gives a nice width, H_y = 30 gives a nice depth)
-    const W_x = 32; 
-    const H_y = 30; 
-    const Y_upper_vertex = 8; 
-    const Y_lower_vertex = 92; 
+    const W_x = 32;
+    const H_y = 30;
+    const Y_upper_vertex = 8;
+    const Y_lower_vertex = 92;
 
     // Deciduous (child) teeth configuration (concentric smaller quartic arches)
-    const W_child_x = 20; 
-    const H_child_y = 17; 
-    const Y_child_upper_vertex = 22; 
-    const Y_child_lower_vertex = 78; 
+    const W_child_x = 20;
+    const H_child_y = 17;
+    const Y_child_upper_vertex = 22;
+    const Y_child_lower_vertex = 78;
 
     // 1. Upper Permanent (18 to 28)
     const upperPermanent = [18, 17, 16, 15, 14, 13, 12, 11, 21, 22, 23, 24, 25, 26, 27, 28];
     upperPermanent.forEach((num, index) => {
       const t = -1 + (2 * index) / 15; // uniform linear distribution along X axis
-      
+
       const x = 50 + W_x * t;
       const y = Y_upper_vertex + H_y * Math.pow(t, 4); // Flat top around t=0, steep walls near t=+-1
-      
+
       // Rotation: vertical at front (t=0) and vertical at back (t=+-1), peak tilt in the middle (canines/premolars)
       const rotation = 180 - 75 * t * (1 - t * t);
-      
+
       const info = getToothInfo(num);
       list.push({
         number: num,
@@ -89,12 +89,12 @@ export default function DentalChart({
     const lowerPermanent = [48, 47, 46, 45, 44, 43, 42, 41, 31, 32, 33, 34, 35, 36, 37, 38];
     lowerPermanent.forEach((num, index) => {
       const t = -1 + (2 * index) / 15;
-      
+
       const x = 50 + W_x * t;
       const y = Y_lower_vertex - H_y * Math.pow(t, 4);
-      
+
       const rotation = -75 * t * (1 - t * t);
-      
+
       const info = getToothInfo(num);
       list.push({
         number: num,
@@ -111,12 +111,12 @@ export default function DentalChart({
     const upperDeciduous = [55, 54, 53, 52, 51, 61, 62, 63, 64, 65];
     upperDeciduous.forEach((num, index) => {
       const t = -1 + (2 * index) / 9;
-      
+
       const x = 50 + W_child_x * t;
       const y = Y_child_upper_vertex + H_child_y * Math.pow(t, 4);
-      
+
       const rotation = 180 - 60 * t * (1 - t * t);
-      
+
       const info = getToothInfo(num);
       list.push({
         number: num,
@@ -133,12 +133,12 @@ export default function DentalChart({
     const lowerDeciduous = [85, 84, 83, 82, 81, 71, 72, 73, 74, 75];
     lowerDeciduous.forEach((num, index) => {
       const t = -1 + (2 * index) / 9;
-      
+
       const x = 50 + W_child_x * t;
       const y = Y_child_lower_vertex - H_child_y * Math.pow(t, 4);
-      
+
       const rotation = -60 * t * (1 - t * t);
-      
+
       const info = getToothInfo(num);
       list.push({
         number: num,
@@ -159,16 +159,16 @@ export default function DentalChart({
   );
 
   return (
-    <div className="flex flex-col items-center p-2 sm:p-6 md:p-8 bg-slate-50/40 rounded-2xl sm:rounded-[2.5rem] md:rounded-[3rem] border border-slate-100/80 shadow-inner w-full">
+    <div className="flex flex-col items-center p-2 sm:p-6 md:p-8 bg-slate-50/40 dark:bg-slate-900/40 rounded-2xl sm:rounded-[2.5rem] md:rounded-[3rem] border border-slate-100/80 dark:border-slate-800 shadow-inner w-full">
       {/* Category Filters */}
-      <div className="flex gap-1 p-1 bg-slate-200/50 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-slate-200/20 max-w-md w-full mb-4 sm:mb-8 shadow-sm">
+      <div className="flex gap-1 p-1 bg-slate-200/50 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-slate-200/20 dark:border-slate-700/60 max-w-md w-full mb-4 sm:mb-8 shadow-sm">
         <button
           onClick={() => setFilter("todos")}
           type="button"
           className={`flex-1 py-1.5 sm:py-2 px-2 sm:px-4 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-wider transition-all duration-300 ${
             filter === "todos"
-              ? "bg-white text-slate-800 shadow-sm border border-slate-100"
-              : "text-slate-500 hover:text-slate-700"
+              ? "bg-white dark:bg-[#131d33] text-slate-800 dark:text-white shadow-sm border border-slate-100 dark:border-slate-700"
+              : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
           }`}
         >
           Todos
@@ -178,8 +178,8 @@ export default function DentalChart({
           type="button"
           className={`flex-1 py-1.5 sm:py-2 px-2 sm:px-4 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-wider transition-all duration-300 ${
             filter === "adulto"
-              ? "bg-white text-slate-800 shadow-sm border border-slate-100"
-              : "text-slate-500 hover:text-slate-700"
+              ? "bg-white dark:bg-[#131d33] text-slate-800 dark:text-white shadow-sm border border-slate-100 dark:border-slate-700"
+              : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
           }`}
         >
           Adultos
@@ -189,8 +189,8 @@ export default function DentalChart({
           type="button"
           className={`flex-1 py-1.5 sm:py-2 px-2 sm:px-4 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-wider transition-all duration-300 ${
             filter === "infantil"
-              ? "bg-white text-slate-800 shadow-sm border border-slate-100"
-              : "text-slate-500 hover:text-slate-700"
+              ? "bg-white dark:bg-[#131d33] text-slate-800 dark:text-white shadow-sm border border-slate-100 dark:border-slate-700"
+              : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
           }`}
         >
           Infantis
@@ -199,12 +199,12 @@ export default function DentalChart({
 
       {/* Interactive Odontogram Parabolic Board */}
       <div className="w-full flex justify-center overflow-x-auto py-1">
-        <div className="relative w-full aspect-[800/700] min-w-[280px] max-w-[650px] bg-white rounded-2xl sm:rounded-[2rem] border border-slate-100/50 shadow-sm overflow-hidden p-1 sm:p-2 select-none">
+        <div className="relative w-full aspect-[800/700] min-w-[280px] max-w-[650px] bg-white dark:bg-[#131d33] rounded-2xl sm:rounded-[2rem] border border-slate-100/50 dark:border-slate-800 shadow-sm overflow-hidden p-1 sm:p-2 select-none">
         
         {/* Background Guide lines (SVG coords correspond directly to percentages) */}
         <svg
           viewBox="0 0 100 100"
-          className="absolute inset-0 w-full h-full pointer-events-none stroke-slate-200"
+          className="absolute inset-0 w-full h-full pointer-events-none stroke-slate-200 dark:stroke-slate-700"
           style={{ width: "100%", height: "100%" }}
         >
           {/* Vertical Midline (Linha Média Dental) */}
@@ -215,7 +215,7 @@ export default function DentalChart({
             y2="96"
             strokeDasharray="2,2"
             strokeWidth="0.15"
-            className="stroke-slate-300"
+            className="stroke-slate-300 dark:stroke-slate-600"
           />
 
           {/* Horizontal Occlusion Line (Bite Line) */}
@@ -225,15 +225,16 @@ export default function DentalChart({
             x2="92"
             y2="50"
             strokeWidth="0.1"
-            className="stroke-slate-200"
+            className="stroke-slate-200 dark:stroke-slate-700"
           />
           <circle
             cx="50"
             cy="50"
             r="1"
-            fill="white"
+            fill="currentColor"
             stroke="#cbd5e1"
             strokeWidth="0.25"
+            className="text-white dark:text-slate-800"
           />
 
           {/* Guide curves: Upper permanent */}
@@ -243,7 +244,7 @@ export default function DentalChart({
               fill="none"
               strokeWidth="0.2"
               strokeDasharray="2,2"
-              className="stroke-slate-200/80"
+              className="stroke-slate-200/80 dark:stroke-slate-700/80"
             />
           )}
 
@@ -254,7 +255,7 @@ export default function DentalChart({
               fill="none"
               strokeWidth="0.2"
               strokeDasharray="2,2"
-              className="stroke-slate-200/80"
+              className="stroke-slate-200/80 dark:stroke-slate-700/80"
             />
           )}
 
@@ -265,7 +266,7 @@ export default function DentalChart({
               fill="none"
               strokeWidth="0.2"
               strokeDasharray="2,2"
-              className="stroke-slate-200/80"
+              className="stroke-slate-200/80 dark:stroke-slate-700/80"
             />
           )}
 
@@ -276,34 +277,34 @@ export default function DentalChart({
               fill="none"
               strokeWidth="0.2"
               strokeDasharray="2,2"
-              className="stroke-slate-200/80"
+              className="stroke-slate-200/80 dark:stroke-slate-700/80"
             />
           )}
-        </svg>
+          </svg>
 
-        {/* Render interactive Teeth buttons */}
-        {teethPositions.map((tooth) => (
-          <Tooth
-            key={tooth.number}
-            number={tooth.number}
-            name={tooth.name}
-            category={tooth.category}
-            type={tooth.type}
-            x={tooth.x}
-            y={tooth.y}
-            rotation={tooth.rotation}
-            isSelected={selectedTooth === tooth.number}
-            hasRecord={hasRecord(tooth.number)}
-            onClick={onToothSelect}
-          />
-        ))}
+          {/* Render interactive Teeth buttons */}
+          {teethPositions.map((tooth) => (
+            <Tooth
+              key={tooth.number}
+              number={tooth.number}
+              name={tooth.name}
+              category={tooth.category}
+              type={tooth.type}
+              x={tooth.x}
+              y={tooth.y}
+              rotation={tooth.rotation}
+              isSelected={selectedTooth === tooth.number}
+              hasRecord={hasRecord(tooth.number)}
+              onClick={onToothSelect}
+            />
+          ))}
         </div>
       </div>
 
       {/* Legend section */}
-      <div className="mt-6 sm:mt-8 flex flex-wrap justify-center gap-3 sm:gap-6 md:gap-8 bg-white px-4 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl border border-slate-100 shadow-sm text-[10px] sm:text-xs font-bold text-slate-600">
+      <div className="mt-6 sm:mt-8 flex flex-wrap justify-center gap-3 sm:gap-6 md:gap-8 bg-white dark:bg-[#131d33] px-4 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm text-[10px] sm:text-xs font-bold text-slate-600 dark:text-slate-300">
         <div className="flex items-center gap-1.5 sm:gap-2">
-          <span className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-md bg-gradient-to-b from-blue-400 to-blue-600 border border-blue-700 shadow-sm" />
+          <span className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-md bg-theme-primary border border-theme-primary-hover shadow-sm" />
           <span>Selecionado</span>
         </div>
         <div className="flex items-center gap-1.5 sm:gap-2">
@@ -311,7 +312,7 @@ export default function DentalChart({
           <span>Com Registro</span>
         </div>
         <div className="flex items-center gap-1.5 sm:gap-2">
-          <span className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-md bg-gradient-to-b from-slate-50 to-slate-200 border border-slate-350 shadow-sm" />
+          <span className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-md bg-gradient-to-b from-slate-50 to-slate-200 dark:from-slate-700 dark:to-slate-800 border border-slate-300 dark:border-slate-600 shadow-sm" />
           <span>Sem Registro</span>
         </div>
       </div>
